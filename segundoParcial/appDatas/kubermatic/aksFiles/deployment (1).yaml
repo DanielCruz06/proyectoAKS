@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubermatic-dl-deployment
+spec:
+  selector:
+    matchLabels:
+      app: kubermatic-dl
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: kubermatic-dl
+    spec:
+     tolerations:
+     - key: "CriticalAddonsOnly"
+       operator: "Exists"
+       effect: "NoSchedule"
+     containers:
+     - name: kubermatic-dl
+       image: dcruz06/kubermatic-dl:v2
+       imagePullPolicy: Always
+       ports:
+       - containerPort: 8080
